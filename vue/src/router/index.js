@@ -4,6 +4,7 @@ import DashboardPage from "@/components/DashboardPage.vue";
 import LoginPage from "@/components/LoginPage.vue";
 import MedicalRecords from "@/components/MedicalRecords.vue";
 import PatientsPage from "@/components/PatientsPage.vue";
+import ManageUser from "@/components/ManageUser.vue";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: "/Appointments",
     component: AppointmentsPage,
     name: "AppointmentsPage",
+  },
+  {
+    path: "/ManageUsers",
+    component: ManageUser,
+    name: "ManageUsers",
   },
   {
     path: "/",

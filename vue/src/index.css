@@ -3,10 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
-  background-color: #e0dfdf;
 }
