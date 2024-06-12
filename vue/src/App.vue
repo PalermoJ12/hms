@@ -26,7 +26,14 @@
             class="hover:bg-slate-100 rounded-md p-2 hover:text-black cursor-pointer mx-8"> <span>
               <VaIcon name="format_list_bulleted" size="large" class="mr-2" />
             </span>
-            <span tle class="ml-2">PATIENTS</span>
+            <span tle class="ml-2">PATIENT</span>
+          </div>
+          <div @click="$router.push('/doctors')"
+            class="hover:bg-slate-100 rounded-md p-2 hover:text-black cursor-pointer mx-8"> <span>
+              <VaIcon name="format_list_bulleted" size="large" class="mr-2" />
+            </span>
+
+            <span tle class="ml-2">DOCTOR</span>
           </div>
           <div @click="$router.push('/Appointments')"
             class="hover:bg-slate-100 rounded-md p-2 hover:text-black cursor-pointer mx-8"> <span>

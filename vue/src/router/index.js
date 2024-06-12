@@ -5,6 +5,7 @@ import LoginPage from "@/components/LoginPage.vue";
 import MedicalRecords from "@/components/MedicalRecords.vue";
 import PatientsPage from "@/components/PatientsPage.vue";
 import ManageUser from "@/components/ManageUser.vue";
+import DoctorPage from "@/components/DoctorPage.vue";
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     path: "/Patients",
     component: PatientsPage,
     name: "PatientsPage",
+  },
+  {
+    path: "/doctors",
+    component: DoctorPage,
+    name: "doctor",
   },
   {
     path: "/MedicalRecords",
