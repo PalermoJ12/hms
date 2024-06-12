@@ -1,51 +1,34 @@
-import { createRouter, createWebHistory } from "vue-router";
-import AppointmentsPage from "@/components/AppointmentsPage.vue";
-import DashboardPage from "@/components/DashboardPage.vue";
-import LoginPage from "@/components/LoginPage.vue";
-import MedicalRecords from "@/components/MedicalRecords.vue";
-import PatientsPage from "@/components/PatientsPage.vue";
-import ManageUser from "@/components/ManageUser.vue";
+// src/router/index.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import AdminDashboard from '../components/AdminDashboard.vue'
+import DoctorDashboard from '../components/DoctorDashboard.vue'
+import PatientDashboard from '../components/PatientDashboard.vue'
+import HomePage from '../components/HomePage.vue'
 
-const routes = [
-  {
-    path: "/Dashboard",
-    component: DashboardPage,
-    name: "DashboardPage",
-  },
-  {
-    path: "/Patients",
-    component: PatientsPage,
-    name: "PatientsPage",
-  },
-  {
-    path: "/MedicalRecords",
-    component: MedicalRecords,
-    name: "MedicalRecords",
-  },
-  {
-    path: "/Appointments",
-    component: AppointmentsPage,
-    name: "AppointmentsPage",
-  },
-  {
-    path: "/ManageUsers",
-    component: ManageUser,
-    name: "ManageUsers",
-  },
-  {
-    path: "/",
-    component: LoginPage,
-    name: "LoginPage",
-  },
-  {
-    path: "/logout",
-    name: "logout",
-  },
-];
+Vue.use(Router)
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-});
-
-export default router;
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'HomePage',
+      component: HomePage
+    },
+    {
+      path: '/admin',
+      name: 'AdminDashboard',
+      component: AdminDashboard
+    },
+    {
+      path: '/doctor',
+      name: 'DoctorDashboard',
+      component: DoctorDashboard
+    },
+    {
+      path: '/patient',
+      name: 'PatientDashboard',
+      component: PatientDashboard
+    }
+  ]
+})
