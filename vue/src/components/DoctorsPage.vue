@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col">
-        <div class="text-2xl p-6 text-black va-title">PATIENTS</div>
+        <div class="text-2xl p-6 text-black va-title">DOCTORS</div>
         <div class="flex justify-start w-full">
             <VaCard class="w-[1150px] mx-20 min-h-[500px] mt-5">
                 <VaCardTitle class="flex flex-row w-100 justify-between ">
-                    <div>PATIENTS</div>
+                    <div>DOCTORS</div>
                     <div v-if="userAccess === 'admin'">
                         <button>
                             <VaIcon name="add_circle" size="large" class="hover:text-green-500"
@@ -21,29 +21,28 @@
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">Name</th>
-                                    <th scope="col" class="px-6 py-3">Gender</th>
-                                    <th scope="col" class="px-6 py-3">Date of Birth</th>
-                                    <th scope="col" class="px-6 py-3">Phone</th>
+                                    <th scope="col" class="px-6 py-3">Specialization</th>
+                                    <th scope="col" class="px-6 py-3">Profile</th>
                                     <th scope="col" class="px-6 py-3">Action</th>
                                 </tr>
                             </thead>
                             <!-- Table body -->
                             <tbody>
-                                <tr v-for="(record, index) in paginatedRecords" :key="index"
+                                <tr v-for="(doctor, index) in paginatedRecords" :key="index"
                                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="px-6 py-4">{{ record.user.name }}</td>
-                                    <td class="px-6 py-4">{{ record.gender }}</td>
-                                    <td class="px-6 py-4">{{ record.date_of_birth }}</td>
-                                    <td class="px-6 py-4">{{ record.phone }}</td>
+                                    <td class="px-6 py-4">{{ doctor.user.name }}</td>
+                                    <td class="px-6 py-4">{{ doctor.specialization }}</td>
+                                    <td class="px-6 py-4 w-[500px]">{{ doctor.profile }}</td>
+
                                     <td class="px-6 py-4 space-x-4">
-                                        <button @click="handleShowViewModal(record)">
-                                            <VaIcon name="visibility" size="large" class="hover:text-blue-700" />
+                                        <button @click="handleShowViewModal(doctor)">
+                                            <VaIcon name="visibility" size="medium" class="hover:text-blue-700" />
                                         </button>
-                                        <button @click="handleShowUpdateModal(record)">
-                                            <VaIcon name="edit" size="large" class="hover:text-blue-700" />
+                                        <button @click="handleShowUpdateModal(doctor)">
+                                            <VaIcon name="edit" size="medium" class="hover:text-blue-700" />
                                         </button>
-                                        <button v-if="userAccess === 'admin'" @click="handleShowDeleteModal(record)">
-                                            <VaIcon name="delete" size="large" class="hover:text-blue-700" />
+                                        <button v-if="userAccess === 'admin'" @click="handleShowDeleteModal(doctor)">
+                                            <VaIcon name="delete" size="medium" class="hover:text-blue-700" />
                                         </button>
 
                                     </td>
@@ -64,7 +63,7 @@
 
     <VaModal ref="modal" v-model="userInfoModal" ok-text="Next" @ok="handleNextSubmit">
         <div class="va-h5 flex flex-row justify-between">
-            <span> Patient Information</span>
+            <span> Doctor Information</span>
             <h6 class="text-sm text-red-600">
                 {{ error }}
             </h6>
@@ -75,10 +74,8 @@
             <VaForm ref="myForm" stateful class="mb-2 flex flex-col gap-4 mt-8" preset="danger">
 
                 <VaInput v-model="newRecord.user.name" name="Name" label="Name" />
-                <VaSelect v-model="newRecord.gender" :options="options.map(item => item.gender)" label="Gender" />
-                <VaInput v-model="newRecord.date_of_birth" type="date" name="Date of Birth" label="Date of Birth" />
-                <VaInput type="number" v-model="newRecord.phone" name="Phone" label="Phone" />
-                <VaTextarea v-model="newRecord.address" name="Address" label="Address" />
+                <VaInput v-model="newRecord.specialization" name="Specialization" label="Specialization" />
+                <VaTextarea v-model="newRecord.profile" name="Profile" label="Profile" />
 
             </VaForm>
         </div>
@@ -89,8 +86,8 @@
 
     <VaModal ref="modal" v-model="userCredentialModal" ok-text="Submit" @ok="handleCreateUser">
         <div class="va-h5 flex flex-row justify-between">
-            <span> Patient Credential</span>
-
+            <span> Doctor Credential</span>
+            <small v-if="errorResponse" class="text-red-600">{{ errorResponse }}</small>
         </div>
 
         <hr>
@@ -114,17 +111,15 @@
 
             <VaCardContent>
                 <div class="flex flex-col w-100">
-                    <div>
+                    <div class="flex flex-row justify-between">
                         <h1 class="va-h6 text-2xl"> {{ selectedRecord.user.name }}</h1>
-
+                        <div class="text-sm  mt-4 mr-2"> {{ selectedRecord.specialization }}</div>
                     </div>
                     <hr>
                     <div>
-                        <div><span class="font-light">Gender</span> : {{ selectedRecord.gender.toUpperCase() }}</div>
-                        <div><span class="font-light">Birthdate</span> : {{ selectedRecord.date_of_birth }}</div>
-                        <div><span class="font-light">Contact</span> : {{ selectedRecord.phone }}</div>
-                        <div><span class="font-light">Address</span> : {{ selectedRecord.address }}</div>
-                        <div><span class="font-light">Email</span> : {{ selectedRecord.user.email }}</div>
+                        <div> {{ selectedRecord.profile }}</div>
+
+
                     </div>
                 </div>
             </VaCardContent>
@@ -136,7 +131,7 @@
 
     <VaModal ref="modal" v-model="userUpdateModal" ok-text="Update" @ok="handleUpdate">
         <div class="va-h5 flex flex-row justify-between">
-            <span> Patient Information</span>
+            <span> Doctor Information</span>
 
         </div>
 
@@ -144,12 +139,11 @@
         <div class="mt-4">
             <VaForm ref="myForm" stateful class="mb-2 flex flex-col gap-4 mt-8" preset="danger">
 
+
                 <VaInput v-model="selectedRecord.user.name" name="Name" label="Name" />
-                <VaSelect v-model="selectedRecord.gender" :options="options.map(item => item.gender)" label="Gender" />
-                <VaInput v-model="selectedRecord.date_of_birth" type="date" name="Date of Birth"
-                    label="Date of Birth" />
-                <VaInput v-model="selectedRecord.phone" name="Phone" label="Phone" />
-                <VaTextarea v-model="selectedRecord.address" name="Address" label="Address" />
+                <VaInput v-model="selectedRecord.specialization" name="Specialization" label="Specialization" />
+                <VaTextarea v-model="selectedRecord.profile" name="Profile" label="Profile" />
+
 
             </VaForm>
         </div>
@@ -163,7 +157,7 @@
 
         <hr>
         <div class="mt-4">
-            <div class="flex flex-col w-100">Are you sure you want to delete this patient?</div>
+            <div class="flex flex-col w-100">Are you sure you want to delete this doctor?</div>
         </div>
 
     </VaModal>
@@ -178,7 +172,6 @@ export default {
 
 
     beforeMount() {
-        this.$store.dispatch("getPatientRecords");
         this.$store.dispatch("getDoctors");
     },
     data() {
@@ -190,17 +183,13 @@ export default {
             viewUserModal: false,
             selectedRecord: [],
             currentPage: 1,
-            perPage: 5,
-            currentPageView: 1,
-            perPageView: 3,
+            perPage: 3,
             updateData: {},
             userAccess: this.$store.state.user_access,
             newRecord: {
                 user: {},
-                gender: "",
-                date_of_birth: "",
-                phone: "",
-                address: ""
+                specialization: "",
+                profile: "",
             },
             options: [
                 { id: 1, gender: "male" },
@@ -220,20 +209,12 @@ export default {
 
         },
         totalPages() {
-            return Math.ceil(this.records.length / this.perPage);
+            return Math.ceil(this.doctors.length / this.perPage);
         },
         paginatedRecords() {
             const startIndex = (this.currentPage - 1) * this.perPage;
-            return this.records.slice(startIndex, startIndex + this.perPage);
+            return this.doctors.slice(startIndex, startIndex + this.perPage);
         },
-        totalPagesView() {
-            return Math.ceil(this.selectedRecord.length / this.perPageView);
-        },
-        paginatedRecordsView() {
-
-            const startIndex = (this.currentPageView - 1) * this.perPageView;
-            return this.selectedRecord.slice(startIndex, startIndex + this.perPageView);
-        }
     },
     methods: {
 
@@ -276,10 +257,10 @@ export default {
             }
         },
         async handleCreateUser() {
-            await axiosClient.post("/patients", this.newRecord)
+            await axiosClient.post("/doctors", this.newRecord)
                 .then(() => {
                     this.userCredentialModal = false;
-                    this.$store.dispatch("getPatientRecords");
+                    this.$store.dispatch("getDoctors");
                     this.errorResponse = {};
                     notify('Successfully created');
                 })
@@ -287,14 +268,13 @@ export default {
                     this.userCredentialModal = true;
                     this.errorResponse = err.response.data.message;
                     console.log("=====>", this.errorResponse = err.response.data.message);
-
                 });
         },
         async handleUpdate() {
-            await axiosClient.put(`/patients/${this.selectedRecord.id}`, this.selectedRecord)
+            await axiosClient.put(`/doctors/${this.selectedRecord.id}`, this.selectedRecord)
                 .then(() => {
                     this.userUpdateModal = false;
-                    this.$store.dispatch("getPatientRecords");
+                    this.$store.dispatch("getDoctors");
                     notify('Successfully updated');
                 })
                 .catch((err) => {
@@ -303,10 +283,10 @@ export default {
                 });
         },
         async handleDelete() {
-            await axiosClient.delete(`/patients/${this.selectedRecord.id}`, this.selectedRecord)
+            await axiosClient.delete(`/doctors/${this.selectedRecord.id}`, this.selectedRecord)
                 .then(() => {
                     this.deleteModal = false;
-                    this.$store.dispatch("getPatientRecords");
+                    this.$store.dispatch("getDoctors");
                     notify('Successfully deleted.')
                 })
                 .catch((err) => {

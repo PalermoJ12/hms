@@ -14,6 +14,7 @@ import {
   VaProgressBar,
   VaInput,
   VaSelect,
+  useToast,
 } from "vuestic-ui";
 import "vuestic-ui/styles/essential.css";
 import "vuestic-ui/styles/typography.css";
@@ -37,6 +38,7 @@ app
         VaProgressBar,
         VaInput,
         VaSelect,
+        useToast 
       },
       config: {
         colors: {

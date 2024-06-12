@@ -30,7 +30,12 @@
                     </button>
                 </div>
             </form>
-
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Not a member?
+                <router-link to="/register"
+                    class="font-semibold leading-6 text-slate-700 hover:text-indigo-500">Register
+                    here</router-link>
+            </p>
 
         </div>
     </div>
@@ -57,7 +62,15 @@ export default {
                     password: this.password
                 });
 
-                console.log(response)
+
+                if (response.status === 200) {
+                    localStorage.setItem('id', response.data.data.user.id);
+                    localStorage.setItem('token', response.data.data.token);
+                    localStorage.setItem('current_user', response.data.data.user.name);
+                    localStorage.setItem('user_access', response.data.data.user.role);
+                    this.$router.push('/Dashboard');
+                    window.location.reload();
+                }
 
             } catch (error) {
                 console.log(error)
