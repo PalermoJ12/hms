@@ -1,3 +1,3 @@
 <template>
-    <h1>PATIENTS</h1>
+    <h1 style="color: red;">PATIENTS</h1>
 </template>
